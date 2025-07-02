@@ -15,7 +15,7 @@ const articleRoutes = require("./routes/articleRoutes");
 
 // ========= MIDDLEWARE ========= //
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://cep-backend-9jfg.onrender.com",
   credentials: true,
 }));
 app.use(express.json());
@@ -95,7 +95,7 @@ app.post("/forgot-password", async (req, res) => {
   user.resetTokenExpiry = Date.now() + 3600000; // 1 hour
   await user.save();
 
-  const resetLink = `http://localhost:3000/reset-password/${token}`;
+  const resetLink = `https://cep-backend-9jfg.onrender.com/reset-password/${token}`;
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -322,4 +322,4 @@ app.get("/logout", (req, res) => {
 });
 
 // ========= SERVER ========= //
-app.listen(5000, () => console.log("✅ Backend running on http://localhost:5000"));
+app.listen(5000, () => console.log("✅ Backend running on https://cep-backend-9jfg.onrender.com"));
