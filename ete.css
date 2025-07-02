@@ -1,0 +1,424 @@
+     <Router>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+
+
+    app.post("/register", async (req, res) => {
+  console.log("📨 Registration Request:", req.body);
+
+  const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    console.log("❌ Missing registration fields");
+    return res.status(400).send("All fields are required.");
+  }
+
+  try {
+    const userExists = await User.findOne({ $or: [{ username }, { email }] });
+    if (userExists) {
+      console.log("❌ User already exists:", username);
+      return res.status(400).send("User already exists with that username or email.");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, email, password: hashedPassword });
+    await newUser.save();
+
+    console.log("✅ User registered:", username);
+    res.status(200).send("User registered");
+  } catch (error) {
+    console.error("❌ Error saving user:", error);
+    res.status(500).send("Server error during registration");
+  }
+});
+
+
+const mongoose = require("mongoose");
+
+const ArticleSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+  author: {
+    id: mongoose.Schema.Types.ObjectId,
+    name: String
+  },
+  likes: { type: Number, default: 0 },
+  likedBy: [{ type: mongoose.Schema.Types.ObjectId }], // For preventing duplicate likes
+  createdAt: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model("Article", ArticleSchema);
+
+
+
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "CSE",
+  year: 2,
+  subjects: [
+    { name: "Discrete mathematics", fileUrl: "https://drive.google.com/file/d/1nywjqmRHya3a-U0_dPFFAZwfa40zwkGk/view" }, 
+    { name: " Object Oriented Programming Using Java", fileUrl: "https://drive.google.com/file/d/1xJLceTY1WH5-kNfeRgf-xMBSM5uxfVx1/view" }, 
+    { name: "Data Structures (CST201)", fileUrl: "https://drive.google.com/file/d/15xO7XvSAc-d2uTAiH85zVjz8G650Ah8b/view" }, 
+     { name: "Logic System Design (CST203)", fileUrl: "https://drive.google.com/file/d/1xZr7lOA2q4FLvDXNI1iHtje58ULXoE8_/view" }, 
+     { name: "MCN201 Sustainable Engineering ", fileUrl: "https://drive.google.com/file/d/1IIatwfzwX0L28DTsN5JmEeqrfVCEDkFj/view" }, 
+     { name: "HUT200 Professional Ethics", fileUrl: "https://drive.google.com/file/d/14LScVbvduhHqOXOnNlIs9pmtu9glbfTh/view" }, 
+
+    { name: "Design And Engineering ", fileUrl: "https://drive.google.com/file/d/1pPTx1GOb2Cjho1CCBkb98brvLfuKSNr-/view" },
+     { name: "Graph Theory | MAT206", fileUrl: "https://drive.google.com/file/d/1W0l2Pav5dLYWanMe-Ultbd-cm4LVt5fR/view" }, 
+     { name: "Database Management Systems Notes | CST204", fileUrl: "https://drive.google.com/file/d/1hBlM6P10DAbhv8hj1dR8nIWMYF2ehMiz/view" }, 
+     { name: "Operating Systems | CST206", fileUrl: "https://drive.google.com/file/d/1m8RsgE5tTDpNM6nArm3QDz7XGEJS6doj/view" }, 
+     { name: "Constitution Of India | MCN202", fileUrl: "https://drive.google.com/file/d/14m4FhT2tcaOjO5mYm6lJexrcS6l527hN/view" },
+     { name: "Computer Organization & Architecture| CST202", fileUrl: "https://drive.google.com/file/d/1LQh1fnHyFjlDVFgtpcXU9tuZBqFcLu76/view" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "CSE",
+  year: 3,
+  subjects: [
+    { name: "CST301 Formal Languages & Automata Theory", fileUrl: "https://drive.google.com/file/d/1gSDQTP-JNMB67YcS6hU6j93P364kJqv3/view" }, 
+    { name: " CST309 Management Of Software Systems", fileUrl: "https://drive.google.com/file/d/1bYDnMN7cdEprhQhKd4nYvJbyVvHtFpJm/view" }, 
+    { name: "CST307 Microprocessors & Microcontrollers", fileUrl: "https://drive.google.com/file/d/1bkdsCDr-ntD8uTUbIpFx07ylAbf4ANZc/view" }, 
+     { name: "CST303 Computer Networks", fileUrl: "https://drive.google.com/file/d/11lWie2DJxvQEaMIKv1Dk_R_5jBplVsNy/view" }, 
+     { name: "CST305 System Software ", fileUrl: "https://drive.google.com/file/d/163ZyfbzQ0_vLbRQkeddJ2bWAwZlbLhxE/view" }, 
+     { name: "MCN301 Disaster Management", fileUrl: "https://drive.google.com/file/d/1zyt6QnDBJPU_7WlP2bPwkAwkHk1tP6AS/view" }, 
+
+    { name: "Programming In Python| CST362", fileUrl: "https://drive.google.com/file/d/1PdH4BYSmbAlixRUN9EvHxc7VLXBq_xUo/view" },
+     { name: "Data Analytics| CST322", fileUrl: "https://drive.google.com/file/d/1RXtcgu8q15yQgHp35fNC6sbJ_mC34i2a/view" }, 
+     { name: "HUT310 Management for Engineers ", fileUrl: "https://drive.google.com/file/d/1GbuNmPXe8MbtGhzyEbd5WlOvqjoBYIVt/view" }, 
+     { name: "Compiler Design| CST302", fileUrl: "https://drive.google.com/file/d/1ZGYBtykNPgvlf0um0KCnUbL4GgxE9zaU/view" }, 
+     { name: "Algorithm Analysis & Design | CST306", fileUrl: "https://drive.google.com/file/d/1ggMHVC5HOGcRMkvm-GT_cD8LNLEdq63b/view" },
+     { name: "HUT300 Industrial Economics & Foreign Trade", fileUrl: "https://drive.google.com/file/d/1qnF492yplugfv3lXkeuZ6_GyQDdj5Gha/view" },
+    { name: "Computer Graphics and Image Processing| CST304", fileUrl: "https://drive.google.com/file/d/1CGFUrB1vXHnznkOy2ksgj9Ic7NHG5FnG/view" },
+  ]
+}) 
+
+
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "CSE",
+  year: 4,
+  subjects: [
+    { name: "MCN401 Industrial Safety Engineering", fileUrl: "https://drive.google.com/file/d/128k-8owP5gLq5fQ7vsd8mCEImb4DqGco/view" }, 
+    { name: "CST413 Machine Learning", fileUrl: "https://drive.google.com/file/d/11SUQ2HEFa7DlkQVj-rkHeIs7Zy6DC9YG/view" }, 
+    { name: "CST423 Cloud Computing", fileUrl: "https://drive.google.com/file/d/1qsTkOylubggumkYk65n3XM-IWGl_ZtHg/view" }, 
+    { name: "CST401 Artificial Intelligence", fileUrl: "https://drive.google.com/file/d/1ms05RCAdzjmDeMCk5OsKkqQ2onLEGpfs/view" }, 
+    { name: "CST463 Web Programming", fileUrl: "https://drive.google.com/file/d/1Zh_8Ms6pz4on5S7LYkBId-VzlbqdC2Y3/view" }, 
+    { name: "CST435 Computer Graphics", fileUrl: "https://drive.google.com/file/d/19bWXZMxD5IRDnydj1BAUUvN3uTYCeudQ/view" }, 
+
+    { name: "CST445 Python For Engineers ", fileUrl: "https://drive.google.com/file/d/1t8DsU2Zj0lpTCPQBI849xamZeF29tlEt/view" },
+    { name: "Natural Language Processing | CST473", fileUrl: "https://drive.google.com/file/d/1lq9q51KhStZRTJjLTcfblNfWLUFBTXN_/view" }, 
+    { name: "Distributed Computing | CST402", fileUrl: "https://drive.google.com/file/d/1wC9AVyilzXekriFH06SZuO85xrYtqkN-/view" }, 
+    { name: "Data Mining | CST466", fileUrl: "https://drive.google.com/file/d/1jEvh4nWGwBIgAlC1bEao9XkYO4QN8fch/view" }, 
+    { name: "Mobile Computing| CST476", fileUrl: "https://drive.google.com/file/d/1JZa34flVd9L7klvi3RISnXYjGHjps6TU/view" },
+    { name: "Embedded Systems | CST464", fileUrl: "https://drive.google.com/file/d/16KzEtHQ9nw4o7NlKWF0bgqSBKoRjOqpl/view" },
+    { name: "Internet Of Things  – CST448", fileUrl: "https://drive.google.com/file/d/1u2sKflBdgI261CbmUaSyDVmvswDsE_Y2/view" },
+    { name: "Programming Paradigms | CST424", fileUrl: "https://drive.google.com/file/d/1DTV6hBALCawhLz6-gm9-XCBQI-yJkHdp/view" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "ME",
+  year: 1,
+  subjects: [
+    { name: "S1", fileUrl: "https://www.ktunotes.in/ktu-btech-s1-2019-syllabus/" }, 
+    { name: "S2", fileUrl: "https://www.ktunotes.in/ktu-s2-2019-syllabus/" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "ME",
+  year: 2,
+  subjects: [
+    { name: "S3", fileUrl: "https://www.ktunotes.in/ktu-s3-me-2019-syllabus/" }, 
+    { name: "S4", fileUrl: "https://www.ktunotes.in/ktu-s4-me-2019-syllabus/" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "ME",
+  year: 3,
+  subjects: [
+    { name: "S5", fileUrl: "https://www.ktunotes.in/ktu-s5-mechanical-syllabus-2019/" }, 
+    { name: "S6", fileUrl: "https://www.ktunotes.in/ktu-s6-mechanical-syllabus-2019/" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "ME",
+  year: 4,
+  subjects: [
+    { name: "S7", fileUrl: "https://www.ktunotes.in/ktu-s7-mech-syllabus-2019-scheme/" }, 
+    { name: "S8", fileUrl: "https://www.ktunotes.in/ktu-s8-mech-syllabus-2019-scheme/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "ECE",
+  year: 1,
+  subjects: [
+    { name: "S1", fileUrl: "https://www.ktunotes.in/ktu-btech-s1-2019-syllabus/" }, 
+    { name: "S2", fileUrl: "https://www.ktunotes.in/ktu-s2-2019-syllabus/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "ECE",
+  year: 2,
+  subjects: [
+    { name: "S3", fileUrl: "https://www.ktunotes.in/ktu-s3-ece-2019-syllabus/" }, 
+    { name: "S4", fileUrl: "https://www.ktunotes.in/ktu-s4-ece-2019-syllabus/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "ECE",
+  year: 3,
+  subjects: [
+    { name: "S5", fileUrl: "https://www.ktunotes.in/ktu-s5-ece-syllabus-2019/" }, 
+    { name: "S6", fileUrl: "https://www.ktunotes.in/ktu-s6-ece-syllabus-2019/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "ECE",
+  year: 4,
+  subjects: [
+    { name: "S7", fileUrl: "https://www.ktunotes.in/ktu-s7-ece-syllabus-2019-scheme/" }, 
+    { name: "S8", fileUrl: "https://www.ktunotes.in/ktu-s8-ece-syllabus-2019-scheme/" }, 
+  ]
+})
+
+
+
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "EEE",
+  year: 1,
+  subjects: [
+    { name: "S1", fileUrl: "https://www.ktunotes.in/ktu-btech-s1-2019-syllabus/" }, 
+    { name: "S2", fileUrl: "https://www.ktunotes.in/ktu-s2-2019-syllabus/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "EEE",
+  year: 2,
+  subjects: [
+    { name: "S3", fileUrl: "https://www.ktunotes.in/ktu-s3-eee-2019-syllabus/" }, 
+    { name: "S4", fileUrl: "https://www.ktunotes.in/ktu-s4-eee-2019-syllabus/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "EEE",
+  year: 3,
+  subjects: [
+    { name: "S5", fileUrl: "https://www.ktunotes.in/ktu-s5-eee-syllabus-2019/" }, 
+    { name: "S6", fileUrl: "https://www.ktunotes.in/ktu-s6-eee-syllabus-2019/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "EEE",
+  year: 4,
+  subjects: [
+    { name: "S7", fileUrl: "https://www.ktunotes.in/ktu-s7-eee-syllabus-2019-scheme/" }, 
+    { name: "S8", fileUrl: "https://www.ktunotes.in/ktu-s8-eee-syllabus-2019-scheme/" }, 
+  ]
+})
+
+
+
+
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "CSE",
+  year: 3,
+  subjects: [
+    { name: "S5", fileUrl: "https://www.ktunotes.in/ktu-s5-cse-syllabus-2019/" }, 
+    { name: "S6", fileUrl: "https://www.ktunotes.in/ktu-s6-cse-syllabus-2019/" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "CSE",
+  year: 4,
+  subjects: [
+    { name: "S7", fileUrl: "https://www.ktunotes.in/ktu-s7-cse-syllabus-2019-scheme/" }, 
+    { name: "S8", fileUrl: "https://www.ktunotes.in/ktu-s8-cse-syllabus-2019-scheme/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2019",
+  department: "CSE",
+  year: 1,
+  subjects: [
+    { name: "S1", fileUrl: "https://www.ktunotes.in/ktu-btech-s1-2019-syllabus/" }, 
+    { name: "S2", fileUrl: "https://www.ktunotes.in/ktu-s2-2019-syllabus/" },
+  ]
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "ME",
+  year: 1,
+  subjects: [
+    { name: "S1", fileUrl: "https://www.ktunotes.in/ktu-s1-mech-syllabus-2024-scheme/" }, 
+    { name: "S2", fileUrl: "https://www.ktunotes.in/ktu-s2-2019-syllabus/" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "ME",
+  year: 2,
+  subjects: [
+    { name: "S3", fileUrl: "https://www.ktunotes.in/ktu-s3-me-2019-syllabus/" }, 
+    { name: "S4", fileUrl: "https://www.ktunotes.in/ktu-s4-me-2019-syllabus/" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "ME",
+  year: 3,
+  subjects: [
+    { name: "S5", fileUrl: "https://www.ktunotes.in/ktu-s5-mechanical-syllabus-2019/" }, 
+    { name: "S6", fileUrl: "https://www.ktunotes.in/ktu-s6-mechanical-syllabus-2019/" },
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "ME",
+  year: 4,
+  subjects: [
+    { name: "S7", fileUrl: "https://www.ktunotes.in/ktu-s7-mech-syllabus-2019-scheme/" }, 
+    { name: "S8", fileUrl: "https://www.ktunotes.in/ktu-s8-mech-syllabus-2019-scheme/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "ECE",
+  year: 1,
+  subjects: [
+    { name: "S1", fileUrl: "https://www.ktunotes.in/ktu-s1-ece-syllabus-2024-scheme/" }, 
+    { name: "S2", fileUrl: "https://www.ktunotes.in/ktu-s2-2019-syllabus/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "ECE",
+  year: 2,
+  subjects: [
+    { name: "S3", fileUrl: "https://www.ktunotes.in/ktu-s3-ece-2019-syllabus/" }, 
+    { name: "S4", fileUrl: "https://www.ktunotes.in/ktu-s4-ece-2019-syllabus/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "ECE",
+  year: 3,
+  subjects: [
+    { name: "S5", fileUrl: "https://www.ktunotes.in/ktu-s5-ece-syllabus-2019/" }, 
+    { name: "S6", fileUrl: "https://www.ktunotes.in/ktu-s6-ece-syllabus-2019/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "ECE",
+  year: 4,
+  subjects: [
+    { name: "S7", fileUrl: "https://www.ktunotes.in/ktu-s7-ece-syllabus-2019-scheme/" }, 
+    { name: "S8", fileUrl: "https://www.ktunotes.in/ktu-s8-ece-syllabus-2019-scheme/" }, 
+  ]
+})
+
+
+
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "EEE",
+  year: 1,
+  subjects: [
+    { name: "S1", fileUrl: "https://www.ktunotes.in/ktu-s1-eee-syllabus-2024-scheme/" }, 
+    { name: "S2", fileUrl: "https://www.ktunotes.in/ktu-s2-2019-syllabus/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "EEE",
+  year: 2,
+  subjects: [
+    { name: "S3", fileUrl: "https://www.ktunotes.in/ktu-s3-eee-2019-syllabus/" }, 
+    { name: "S4", fileUrl: "https://www.ktunotes.in/ktu-s4-eee-2019-syllabus/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "EEE",
+  year: 3,
+  subjects: [
+    { name: "S5", fileUrl: "https://www.ktunotes.in/ktu-s5-eee-syllabus-2019/" }, 
+    { name: "S6", fileUrl: "https://www.ktunotes.in/ktu-s6-eee-syllabus-2019/" }, 
+  ]
+})
+
+db.syllabuses.insertOne({
+  scheme: "2024",
+  department: "EEE",
+  year: 4,
+  subjects: [
+    { name: "S7", fileUrl: "https://www.ktunotes.in/ktu-s7-eee-syllabus-2019-scheme/" }, 
+    { name: "S8", fileUrl: "https://www.ktunotes.in/ktu-s8-eee-syllabus-2019-scheme/" }, 
+  ]
+})
