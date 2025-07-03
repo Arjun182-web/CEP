@@ -29,7 +29,7 @@ export default function SyllabusSubjectPage() {
     const fetchSyllabus = async () => {
       try {
         const res = await fetch(
-          `https://cep-backend-9jfg.onrender.com/syllabus/subjects/${scheme}/${department}/${year}`
+          `https://cep-backend.onrender.com/syllabus/subjects/${scheme}/${department}/${year}`
         );
         const data = await res.json();
         setSubjects(data);

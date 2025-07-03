@@ -11,7 +11,7 @@ const DepartmentSection = () => {
     fetchDepartments();
 
     // ✅ Check admin session
-    fetch("https://cep-backend-9jfg.onrender.com/api/check-admin", {
+    fetch("https://cep-backend.onrender.com/api/check-admin", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -20,7 +20,7 @@ const DepartmentSection = () => {
   }, []);
 
   const fetchDepartments = () => {
-    fetch("https://cep-backend-9jfg.onrender.com/departments")
+    fetch("https://cep-backend.onrender.com/departments")
       .then((res) => res.json())
       .then((data) => {
         setDepartments(data);

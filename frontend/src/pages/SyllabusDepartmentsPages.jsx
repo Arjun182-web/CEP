@@ -14,7 +14,7 @@ export default function SyllabusDepartmentsPage() {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const res = await fetch(`https://cep-backend-9jfg.onrender.com/syllabus/${scheme}/departments`);
+        const res = await fetch(`https://cep-backend.onrender.com/syllabus/${scheme}/departments`);
         if (!res.ok) throw new Error("Failed to fetch departments.");
         const data = await res.json();
         setDepartments(data);

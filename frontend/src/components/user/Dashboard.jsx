@@ -24,7 +24,7 @@ const Dashboard = () => {
   ];
 
   const handleLogout = async () => {
-    await fetch("https://cep-backend-9jfg.onrender.com/logout", {
+    await fetch("https://cep-backend.onrender.com/logout", {
       method: "GET",
       credentials: "include",
     });

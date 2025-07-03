@@ -9,7 +9,7 @@ export default function AdminArticleReviewPage() {
   // Fetch all articles
   const fetchArticles = async () => {
     try {
-      const res = await fetch("https://cep-backend-9jfg.onrender.com/articles", {
+      const res = await fetch("https://cep-backend.onrender.com/articles", {
         credentials: "include",
       });
       const data = await res.json();
@@ -29,7 +29,7 @@ export default function AdminArticleReviewPage() {
   // Delete an article
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`https://cep-backend-9jfg.onrender.com/articles/${id}`, {
+      const res = await fetch(`https://cep-backend.onrender.com/articles/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

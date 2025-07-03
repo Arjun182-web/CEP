@@ -7,7 +7,7 @@ export default function ForgotPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("https://cep-backend-9jfg.onrender.com/forgot-password", {
+    const res = await fetch("https://cep-backend.onrender.com/forgot-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),

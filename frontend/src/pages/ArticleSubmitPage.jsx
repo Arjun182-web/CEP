@@ -10,7 +10,7 @@ export default function ArticleSubmitPage() {
 
   const handlePost = async () => {
     try {
-      const res = await fetch("https://cep-backend-9jfg.onrender.com/articles", {
+      const res = await fetch("https://cep-backend.onrender.com/articles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

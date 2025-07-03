@@ -79,7 +79,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://cep-backend-9jfg.onrender.com/login", {
+      const response = await fetch("https://cep-backend.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

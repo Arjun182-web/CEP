@@ -21,7 +21,7 @@ const EditDepartmentForm = ({ department, onClose, onUpdated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`https://cep-backend-9jfg.onrender.com/admin/departments/${department._id}`, {
+      const res = await fetch(`https://cep-backend.onrender.com/admin/departments/${department._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

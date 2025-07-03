@@ -9,7 +9,7 @@ export default function DepartmentListPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://cep-backend-9jfg.onrender.com/departments")
+    fetch("https://cep-backend.onrender.com/departments")
       .then((res) => res.json())
       .then((data) => setDepartments(data))
       .catch(() => setError("Failed to fetch departments"));

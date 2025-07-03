@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("https://cep-backend-9jfg.onrender.com/admin/users", {
+      const res = await fetch("https://cep-backend.onrender.com/admin/users", {
         credentials: "include",
       });
 
@@ -32,7 +32,7 @@ export default function AdminDashboard() {
   }, []);
 
   const handleLogout = async () => {
-    await fetch("https://cep-backend-9jfg.onrender.com/logout", {
+    await fetch("https://cep-backend.onrender.com/logout", {
       method: "GET",
       credentials: "include",
     });
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
     if (!confirmed) return;
 
     try {
-      const res = await fetch(`https://cep-backend-9jfg.onrender.com/admin/users/${id}`, {
+      const res = await fetch(`https://cep-backend.onrender.com/admin/users/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -65,7 +65,7 @@ export default function AdminDashboard() {
   const toggleStatus = async (id) => {
     try {
       const res = await fetch(
-        `https://cep-backend-9jfg.onrender.com/admin/users/${id}/toggle`,
+        `https://cep-backend.onrender.com/admin/users/${id}/toggle`,
         {
           method: "PATCH",
           credentials: "include",

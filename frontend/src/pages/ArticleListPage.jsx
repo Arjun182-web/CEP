@@ -6,7 +6,7 @@ export default function ArticleListPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("https://cep-backend-9jfg.onrender.com/articles", { credentials: "include" })
+    fetch("https://cep-backend.onrender.com/articles", { credentials: "include" })
       .then((res) => res.json())
       .then(setArticles)
       .catch(() => setError("❌ Failed to load articles"));
@@ -14,7 +14,7 @@ export default function ArticleListPage() {
 
   const handleLike = async (id) => {
     try {
-      const res = await fetch(`https://cep-backend-9jfg.onrender.com/articles/${id}/like`, {
+      const res = await fetch(`https://cep-backend.onrender.com/articles/${id}/like`, {
         method: "PUT",
         credentials: "include",
       });

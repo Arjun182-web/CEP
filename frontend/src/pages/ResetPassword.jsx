@@ -8,7 +8,7 @@ export default function ResetPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`https://cep-backend-9jfg.onrender.com/reset-password/${token}`, {
+    const res = await fetch(`https://cep-backend.onrender.com/reset-password/${token}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),

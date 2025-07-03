@@ -10,7 +10,7 @@ export default function HelpdeskPage() {
 
   // 🔁 Check if user has any admin response
   useEffect(() => {
-    fetch("https://cep-backend-9jfg.onrender.com/helpdesk/my", {
+    fetch("https://cep-backend.onrender.com/helpdesk/my", {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -34,7 +34,7 @@ export default function HelpdeskPage() {
     setStatus({ loading: true, error: "", success: "" });
 
     try {
-      const res = await fetch("https://cep-backend-9jfg.onrender.com/helpdesk", {
+      const res = await fetch("https://cep-backend.onrender.com/helpdesk", {
         method: "POST",
         credentials: "include",
         headers: {

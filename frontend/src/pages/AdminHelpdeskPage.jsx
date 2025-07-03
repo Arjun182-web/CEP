@@ -7,7 +7,7 @@ export default function AdminHelpdeskPage() {
 
   const fetchTickets = async () => {
     try {
-      const res = await fetch("https://cep-backend-9jfg.onrender.com/admin/helpdesk", {
+      const res = await fetch("https://cep-backend.onrender.com/admin/helpdesk", {
         credentials: "include",
       });
 
@@ -29,7 +29,7 @@ export default function AdminHelpdeskPage() {
   const sendResponse = async (id, responseText) => {
     try {
       const res = await fetch(
-        `https://cep-backend-9jfg.onrender.com/admin/helpdesk/${id}/respond`,
+        `https://cep-backend.onrender.com/admin/helpdesk/${id}/respond`,
         {
           method: "PATCH",
           headers: {

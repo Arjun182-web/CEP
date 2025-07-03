@@ -19,7 +19,7 @@ export default function UserArticlesPage() {
   // ✅ Fetch current logged-in user
   const fetchCurrentUser = async () => {
     try {
-      const res = await fetch("https://cep-backend-9jfg.onrender.com/user", {
+      const res = await fetch("https://cep-backend.onrender.com/user", {
         credentials: "include",
       });
       const data = await res.json();
@@ -32,7 +32,7 @@ export default function UserArticlesPage() {
   // ✅ Fetch all articles
   const fetchArticles = async () => {
     try {
-      const res = await fetch("https://cep-backend-9jfg.onrender.com/articles", {
+      const res = await fetch("https://cep-backend.onrender.com/articles", {
         credentials: "include",
       });
       const data = await res.json();
@@ -51,7 +51,7 @@ export default function UserArticlesPage() {
   // ✅ Like an article
   const handleLike = async (articleId) => {
     try {
-      const res = await fetch(`https://cep-backend-9jfg.onrender.com/articles/${articleId}/like`, {
+      const res = await fetch(`https://cep-backend.onrender.com/articles/${articleId}/like`, {
         method: "PUT",
         credentials: "include",
       });

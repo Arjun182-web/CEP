@@ -6,7 +6,7 @@ function AdminDashboard() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("https://cep-backend-9jfg.onrender.com/admin/users", {
+    fetch("https://cep-backend.onrender.com/admin/users", {
       credentials: "include",
     })
       .then(async (res) => {
@@ -28,7 +28,7 @@ function AdminDashboard() {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`https://cep-backend-9jfg.onrender.com/admin/users/${id}`, {
+      const res = await fetch(`https://cep-backend.onrender.com/admin/users/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

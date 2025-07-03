@@ -11,7 +11,7 @@ export default function DepartmentDetailPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`https://cep-backend-9jfg.onrender.com/departments/${id}`)
+    fetch(`https://cep-backend.onrender.com/departments/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Department not found");
         return res.json();

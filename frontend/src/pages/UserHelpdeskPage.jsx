@@ -7,7 +7,7 @@ const UserHelpdeskPage = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("https://cep-backend-9jfg.onrender.com/helpdesk/my", {
+    fetch("https://cep-backend.onrender.com/helpdesk/my", {
       credentials: "include",
     })
       .then((res) => res.json())
