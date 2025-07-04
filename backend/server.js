@@ -263,4 +263,6 @@ app.use((req, res) => {
 
 
 // ====== START SERVER ====== //
-app.listen(5000, () => console.log("✅ Backend running on https://cep-backend-9jfg.onrender.com"));
+app.listen(process.env.PORT || 5000, () =>
+  console.log(`✅ Backend running on port ${process.env.PORT || 5000}`)
+);
