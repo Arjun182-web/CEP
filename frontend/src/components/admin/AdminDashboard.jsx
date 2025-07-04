@@ -7,29 +7,34 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
 
-  const fetchUsers = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("https://cep-backend.onrender.com/admin/users", {
-        credentials: "include",
-      });
+ const fetchUsers = async () => {
+  setLoading(true);
+  try {
+    const res = await fetch("https://cep-backend.onrender.com/admin/users", {
+      method: "GET", // ✅ Explicit method
+      credentials: "include", // ✅ Required for session cookies
+      headers: {
+        "Content-Type": "application/json", // ✅ Set correct headers
+      },
+    });
 
-      if (res.status === 403)
-        throw new Error("Access denied. You are not an admin.");
-      if (!res.ok) throw new Error(await res.text());
+    if (res.status === 403)
+      throw new Error("Access denied. You are not an admin.");
+    if (!res.ok) throw new Error(await res.text());
 
-      const data = await res.json();
-      setUsers(data);
-    } catch (error) {
-      setErr(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const data = await res.json();
+    setUsers(data);
+  } catch (error) {
+    setErr(error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+useEffect(() => {
+  fetchUsers();
+}, []);
+
 
   const handleLogout = async () => {
     await fetch("https://cep-backend.onrender.com/logout", {
