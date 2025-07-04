@@ -27,7 +27,7 @@ app.use(session({
 }));
 
 // ========= DATABASE CONNECTION ========= //
-mongoose.connect("mongodb+srv://arjunroy3355:Daiva@cluster0.fcd77bq.mongodb.net/cep?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://arjunroy3355:Daiva@cluster0.fcd77bq.mongodb.net/cep", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log("✅ MongoDB connected"))
