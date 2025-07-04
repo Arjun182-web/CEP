@@ -33,7 +33,10 @@ app.use(session({
 }));
 
 // ====== DATABASE ====== //
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
@@ -71,6 +74,26 @@ app.post("/login", async (req, res) => {
 
   req.session.user = { id: user._id, username: user.username, isAdmin: false };
   res.send("Login successful");
+});
+// ========= ADMIN REGISTRATION (ONE-TIME OR PROTECTED) ========= //
+app.post("/admin/register", async (req, res) => {
+  const { username, email, password } = req.body;
+  if (!username || !email || !password)
+    return res.status(400).send("All fields are required");
+
+  const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+  if (existingUser) return res.status(400).send("Admin already exists");
+
+  const hash = await bcrypt.hash(password, 10);
+  await new User({
+    username,
+    email,
+    password: hash,
+    isAdmin: true,
+    isActive: true,
+  }).save();
+
+  res.send("✅ Admin registered successfully");
 });
 
 app.post("/admin/login", async (req, res) => {
