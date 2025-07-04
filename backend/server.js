@@ -22,6 +22,11 @@ const app = express();
 
 // ====== MIDDLEWARE ====== //
 
+app.use(cors({
+  origin: "https://cep-frontend.onrender.com",
+  credentials: true, // ✅ Must be true for sessions/cookies
+}));
+
 app.use(express.json());
 app.use(session({
   secret: "secret-key",
@@ -30,12 +35,6 @@ app.use(session({
   cookie: { secure: false },
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }) // 👈 Fix
 }));
-app.use(cors({
-  origin: "https://cep-frontend.onrender.com",
-  credentials: true,
-}));
-
-
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://cep-frontend.onrender.com");
