@@ -15,7 +15,7 @@ const articleRoutes = require("./routes/articleRoutes");
 
 // ========= MIDDLEWARE ========= //
 app.use(cors({
-  origin: "https://cep-backend-9jfg.onrender.com",
+  origin: "https://cep-frontend.onrender.com",
   credentials: true,
 }));
 app.use(express.json());
@@ -27,7 +27,7 @@ app.use(session({
 }));
 
 // ========= DATABASE CONNECTION ========= //
-mongoose.connect("mongodb://localhost:27017/studentdb", {
+mongoose.connect("mongodb+srv://arjunroy3355:Daiva@cluster0.fcd77bq.mongodb.net/ ", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log("✅ MongoDB connected"))
