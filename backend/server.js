@@ -22,7 +22,13 @@ const app = express();
 
 // ====== MIDDLEWARE ====== //
 
+app.use(cors({
+  origin: "https://cep-frontend.onrender.com",
+  credentials: true, // ✅ Must be true for sessions/cookies
+}));
+
 app.use(express.json());
+
 app.use(session({
   secret: "secret-key",
   resave: false,
@@ -34,11 +40,6 @@ app.use(session({
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
 }));
 
-
-app.use(cors({
-  origin: "https://cep-frontend.onrender.com",
-  credentials: true, // ✅ Must be true for sessions/cookies
-}));
 
 // ====== DATABASE ====== //
 mongoose.connect(process.env.MONGO_URI)
