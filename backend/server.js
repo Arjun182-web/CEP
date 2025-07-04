@@ -35,14 +35,6 @@ app.use(session({
 }));
 
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://cep-frontend.onrender.com");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-
 app.use(cors({
   origin: "https://cep-frontend.onrender.com",
   credentials: true, // ✅ Must be true for sessions/cookies
