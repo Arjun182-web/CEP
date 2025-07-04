@@ -12,7 +12,7 @@ function AdminRegister() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("https://cep-backend.onrender.com/admin/register", {
+    const response = await fetch("https://cep-backend-9jfg.onrender.com/admin/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
