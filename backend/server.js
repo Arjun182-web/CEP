@@ -21,10 +21,7 @@ const articleRoutes = require("./routes/articleRoutes");
 const app = express();
 
 // ====== MIDDLEWARE ====== //
-app.use(cors({
-  origin: "https://cep-frontend.onrender.com",
-  credentials: true,
-}));
+
 app.use(express.json());
 app.use(session({
   secret: "secret-key",
@@ -32,6 +29,10 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false },
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }) // 👈 Fix
+}));
+app.use(cors({
+  origin: "https://cep-frontend.onrender.com",
+  credentials: true,
 }));
 
 
