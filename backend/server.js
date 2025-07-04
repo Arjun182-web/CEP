@@ -32,6 +32,15 @@ app.use(session({
   cookie: { secure: false }, // Change to true with HTTPS
 }));
 
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://cep-frontend.onrender.com");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 // ====== DATABASE ====== //
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
