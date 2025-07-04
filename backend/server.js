@@ -22,19 +22,18 @@ const app = express();
 
 // ====== MIDDLEWARE ====== //
 
-app.use(cors({
-  origin: "https://cep-frontend.onrender.com",
-  credentials: true, // ✅ Must be true for sessions/cookies
-}));
-
 app.use(express.json());
 app.use(session({
   secret: "secret-key",
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false },
-  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }) // 👈 Fix
+  cookie: {
+    secure: true,
+    sameSite: "none",
+  },
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
 }));
+
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://cep-frontend.onrender.com");
@@ -43,6 +42,11 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
+app.use(cors({
+  origin: "https://cep-frontend.onrender.com",
+  credentials: true, // ✅ Must be true for sessions/cookies
+}));
 
 // ====== DATABASE ====== //
 mongoose.connect(process.env.MONGO_URI)
@@ -259,6 +263,11 @@ app.get("/api/check-admin", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy(() => res.clearCookie("connect.sid").send("Logged out"));
 });
+
+app.use((req, res) => {
+  res.status(404).send("🚫 Route not found");
+});
+
 
 // ====== START SERVER ====== //
 app.listen(5000, () => console.log("✅ Backend running on https://cep-backend-9jfg.onrender.com"));
