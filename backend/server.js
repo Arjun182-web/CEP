@@ -22,11 +22,6 @@ const app = express();
 
 // ====== MIDDLEWARE ====== //
 
-app.use(cors({
-  origin: "https://cep-frontend.onrender.com",
-  credentials: true, // ✅ Must be true for sessions/cookies
-}));
-
 app.use(express.json());
 
 app.use(session({
@@ -38,6 +33,20 @@ app.use(session({
     sameSite: "none",
   },
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
+}));
+
+app.use(cors({
+  origin: "https://cep-frontend.onrender.com",
+  credentials: true,
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+}));
+
+app.options("*", cors({
+  origin: "https://cep-frontend.onrender.com",
+  credentials: true,
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
 }));
 
 
