@@ -42,12 +42,12 @@ app.use(cors({
 }));
 
 // Pre-flight
-app.options("*", cors({
-  origin: "https://cep-frontend.onrender.com",
-  credentials: true,
-  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
-}));
+//app.options("*", cors({
+ // origin: "https://cep-frontend.onrender.com",
+ // credentials: true,
+ // methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+//  allowedHeaders: ["Content-Type"],
+//}));
 
 // ====== DATABASE ====== //
 mongoose.connect(process.env.MONGO_URI)
