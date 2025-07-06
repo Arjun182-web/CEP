@@ -24,7 +24,7 @@ const app = express();
 
 const corsOptions = {
   origin: "https://cep-frontend.onrender.com",
-  credentials: "true",
+  credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 };
@@ -40,7 +40,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: "true",
+    secure: true,
     sameSite: "none",
   },
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
