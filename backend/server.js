@@ -21,7 +21,20 @@ const articleRoutes = require("./routes/article");
 const app = express();
 
 // ====== MIDDLEWARE ====== //
+
+const corsOptions = {
+  origin: "https://cep-frontend.onrender.com",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+};
+app.use(cors(corsOptions));
+
+// This is optional but helps for OPTIONS requests
+//app.options("*", cors(corsOptions));
+
 app.use(express.json());
+
 
 app.use(session({
   secret: "secret-key",
@@ -34,12 +47,7 @@ app.use(session({
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
 }));
 
-app.use(cors({
-  origin: "https://cep-frontend.onrender.com",
-  credentials: true,
-  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
-}));
+
 
 // Pre-flight
 //app.options("*", cors({
