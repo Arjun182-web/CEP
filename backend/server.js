@@ -24,14 +24,13 @@ const app = express();
 
 const corsOptions = {
   origin: "https://cep-frontend.onrender.com",
-  credentials: true,
+  credentials: "true",
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 };
 app.use(cors(corsOptions));
 
-// This is optional but helps for OPTIONS requests
-//app.options("*", cors(corsOptions));
+
 
 app.use(express.json());
 
@@ -41,21 +40,12 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,
+    secure: "true",
     sameSite: "none",
   },
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
 }));
 
-
-
-// Pre-flight
-//app.options("*", cors({
- // origin: "https://cep-frontend.onrender.com",
- // credentials: true,
- // methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-//  allowedHeaders: ["Content-Type"],
-//}));
 
 // ====== DATABASE ====== //
 mongoose.connect(process.env.MONGO_URI)
