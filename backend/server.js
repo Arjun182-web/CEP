@@ -13,19 +13,14 @@ dotenv.config();
 const User = require("./models/User");
 const Department = require("./models/Department");
 const Helpdesk = require("./models/Helpdesk");
-const Syllabus = require("./models/Syllabus");
 
+// Routes
 const syllabusRoutes = require("./routes/syllabusRoutes");
-console.log("✅ Loaded syllabusRoutes"); // Put this right after
-
 const articleRoutes = require("./routes/articleRoutes");
-console.log("✅ Loaded articleRoutes");  // Put this too
-
 
 const app = express();
 
 // ====== MIDDLEWARE ====== //
-
 app.use(express.json());
 
 app.use(session({
@@ -46,14 +41,13 @@ app.use(cors({
   allowedHeaders: ["Content-Type"],
 }));
 
-
+// Pre-flight
 app.options("*", cors({
   origin: "https://cep-frontend.onrender.com",
   credentials: true,
   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 }));
-
 
 // ====== DATABASE ====== //
 mongoose.connect(process.env.MONGO_URI)
@@ -95,7 +89,8 @@ app.post("/login", async (req, res) => {
   req.session.user = { id: user._id, username: user.username, isAdmin: false };
   res.send("Login successful");
 });
-// ========= ADMIN REGISTRATION (ONE-TIME OR PROTECTED) ========= //
+
+// ========= ADMIN REGISTRATION ========= //
 app.post("/admin/register", async (req, res) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password)
@@ -137,7 +132,7 @@ app.post("/forgot-password", async (req, res) => {
 
   const token = crypto.randomBytes(32).toString("hex");
   user.resetToken = token;
-  user.resetTokenExpiry = Date.now() + 3600000; // 1hr
+  user.resetTokenExpiry = Date.now() + 3600000;
   await user.save();
 
   const resetLink = `https://cep-backend-9jfg.onrender.com/reset-password/${token}`;
@@ -146,7 +141,7 @@ app.post("/forgot-password", async (req, res) => {
     service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS, // App password
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -253,14 +248,11 @@ app.patch("/admin/helpdesk/:id/respond", isAdmin, async (req, res) => {
   res.send("Response saved");
 });
 
-// ====== ARTICLES & SYLLABUS ====== //
-console.log("✅ Registering syllabus routes");
+// ====== REGISTER ROUTES ====== //
 app.use("/syllabus", syllabusRoutes);
-
-console.log("✅ Registering article routes");
 app.use("/articles", articleRoutes);
 
-// ====== SESSION INFO ====== //
+// ====== SESSION INFO & LOGOUT ====== //
 app.get("/api/me", (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: "Not logged in" });
   res.json({ id: req.session.user.id, username: req.session.user.username });
@@ -274,10 +266,10 @@ app.get("/logout", (req, res) => {
   req.session.destroy(() => res.clearCookie("connect.sid").send("Logged out"));
 });
 
+// ====== 404 Handler ====== //
 app.use((req, res) => {
   res.status(404).send("🚫 Route not found");
 });
-
 
 // ====== START SERVER ====== //
 app.listen(process.env.PORT || 5000, () =>

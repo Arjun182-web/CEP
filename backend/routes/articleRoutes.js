@@ -2,19 +2,18 @@ const express = require("express");
 const router = express.Router();
 const Article = require("../models/Article");
 
-// ✅ Create article (User authenticated)
+// ✅ Create article
 router.post("/", async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: "Login required" });
+  }
+
+  const { title, content } = req.body;
+  if (!title || !content) {
+    return res.status(400).json({ error: "Title and content are required" });
+  }
+
   try {
-    if (!req.session.user) {
-      return res.status(401).json({ error: "Login required" });
-    }
-
-    const { title, content } = req.body;
-
-    if (!title || !content) {
-      return res.status(400).json({ error: "Title and content are required" });
-    }
-
     const article = new Article({
       title,
       content,
@@ -32,12 +31,12 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ✅ Get all articles (with author's username for admin)
+// ✅ Get all articles
 router.get("/", async (req, res) => {
   try {
     const articles = await Article.find()
       .sort({ createdAt: -1 })
-      .populate("authorId", "username"); // 👈 Include author's username
+      .populate("authorId", "username");
     res.json(articles);
   } catch (err) {
     console.error("Error fetching articles:", err);
@@ -45,7 +44,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ Get articles by current user
+// ✅ Get articles by logged-in user
 router.get("/my-articles", async (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ error: "Login required" });
@@ -60,7 +59,7 @@ router.get("/my-articles", async (req, res) => {
   }
 });
 
-// ✅ Like an article
+// ✅ Like article
 router.put("/:id/like", async (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -71,18 +70,13 @@ router.put("/:id/like", async (req, res) => {
     if (!article) return res.status(404).json({ error: "Article not found" });
 
     const userId = req.session.user.id;
-    const username = req.session.user.username;
-
-    const alreadyLiked = article.likedBy.some(
-      (like) => like.userId.toString() === userId
-    );
-
+    const alreadyLiked = article.likedBy.some(like => like.userId.toString() === userId);
     if (alreadyLiked) {
       return res.status(400).json({ error: "You already liked this article" });
     }
 
     article.likes += 1;
-    article.likedBy.push({ userId, username });
+    article.likedBy.push({ userId, username: req.session.user.username });
     await article.save();
 
     res.json(article);
@@ -92,12 +86,8 @@ router.put("/:id/like", async (req, res) => {
   }
 });
 
-
 // ✅ Delete article (Admin only)
 router.delete("/:id", async (req, res) => {
-  // 🔍 DEBUG: Log the session for verification
-  console.log("Delete Request by Session:", req.session.user);
-
   if (!req.session.user || !req.session.user.isAdmin) {
     return res.status(403).json({ error: "Only admin can delete articles" });
   }
@@ -113,7 +103,5 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete article" });
   }
 });
-
-
 
 module.exports = router;
