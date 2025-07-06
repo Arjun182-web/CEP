@@ -16,7 +16,11 @@ const Helpdesk = require("./models/Helpdesk");
 const Syllabus = require("./models/Syllabus");
 
 const syllabusRoutes = require("./routes/syllabusRoutes");
+console.log("✅ Loaded syllabusRoutes"); // Put this right after
+
 const articleRoutes = require("./routes/articleRoutes");
+console.log("✅ Loaded articleRoutes");  // Put this too
+
 
 const app = express();
 
@@ -41,6 +45,7 @@ app.use(cors({
   methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 }));
+
 
 app.options("*", cors({
   origin: "https://cep-frontend.onrender.com",
@@ -249,7 +254,10 @@ app.patch("/admin/helpdesk/:id/respond", isAdmin, async (req, res) => {
 });
 
 // ====== ARTICLES & SYLLABUS ====== //
+console.log("✅ Registering syllabus routes");
 app.use("/syllabus", syllabusRoutes);
+
+console.log("✅ Registering article routes");
 app.use("/articles", articleRoutes);
 
 // ====== SESSION INFO ====== //

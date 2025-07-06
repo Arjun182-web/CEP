@@ -25,7 +25,7 @@ router.get("/:scheme/departments", async (req, res) => {
 });
 
 // ✅ GET years of study for a scheme and department
-router.get("/:scheme/:department/years", async (req, res) => {
+router.get("/years/:scheme/:department", async (req, res) => {
   try {
     const years = await Syllabus.find({
       scheme: req.params.scheme,
