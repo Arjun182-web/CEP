@@ -15,10 +15,11 @@ function Register() {
 
     const response = await fetch("https://cep-backend.onrender.com/register", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
+      
       body: JSON.stringify({ username, email, password }),
     });
 
