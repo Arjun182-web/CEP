@@ -16,7 +16,7 @@ const Helpdesk = require("./models/Helpdesk");
 
 // Routes
 const syllabusRoutes = require("./routes/syllabusRoutes");
-const articleRoutes = require("./routes/articleRoutes");
+const articleRoutes = require("./routes/article");
 
 const app = express();
 
