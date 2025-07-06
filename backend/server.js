@@ -250,6 +250,8 @@ app.patch("/admin/helpdesk/:id/respond", isAdmin, async (req, res) => {
 
 // ====== REGISTER ROUTES ====== //
 app.use("/syllabus", syllabusRoutes);
+console.log("Article routes loaded:", articleRoutes);
+
 app.use("/articles", articleRoutes);
 
 // ====== SESSION INFO & LOGOUT ====== //
@@ -269,6 +271,10 @@ app.get("/logout", (req, res) => {
 // ====== 404 Handler ====== //
 app.use((req, res) => {
   res.status(404).send("🚫 Route not found");
+});
+app.use((err, req, res, next) => {
+  console.error("Global Error:", err.stack);
+  res.status(500).send("Something broke!");
 });
 
 // ====== START SERVER ====== //
